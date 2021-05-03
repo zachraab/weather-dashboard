@@ -1,11 +1,13 @@
 $(document).ready(function () {
   // VARIABLE DECLARATIONS
 
+  //    general variables
   var searchBtn = $("#search-btn");
   var historyList = $("#history-list");
   var cardParent = $("#card-parent");
   var forecastHeader = $("forecast-header");
 
+  //    weather variables
   var cityName = $("#city-name");
   var cityIcon = $("#city-icon");
   var date = $("#date");
@@ -14,6 +16,7 @@ $(document).ready(function () {
   var humid = $("#humid");
   var uv = $("#uv");
 
+  //    api
   var base = `https://api.openweathermap.org/data/2.5/`;
   const apiKey = "24d3e77575ea6a3daa1e23b95dbe112f";
 
@@ -21,7 +24,7 @@ $(document).ready(function () {
 
   // FUNCTIONS
 
-  // grab lat lon
+  //1st api to grab lat and lon
   function callApi(city) {
     return `${base}weather?q=${city}&appid=${apiKey}`;
   }
@@ -45,47 +48,40 @@ $(document).ready(function () {
         $(cityIcon).attr("src", iconUrl);
 
         //button creation
-
-        // var newListBtn = $("<button>" + searchInput + "</button>");
-        // newListBtn.attr({
-        //   class: "custom-btn",
-        //   value: searchInput,
-        // });
-        // var newListItem = $("<li>");
-        // historyList.append(newListItem);
-        // newListItem.append(newListBtn);
+        //    search input buttons
+        var newListBtn = $("<button>" + searchInput + "</button>");
+        newListBtn.attr({
+          class: "custom-btn",
+          value: searchInput,
+        });
+        historyList.append(newListBtn);
       });
   }
 
-  function buttonCreation(searchInput) {
-    console.log("button creation function");
+  // dynamically create buttons
+  function buttonCreation() {
+    //button creation for search input
 
-    // var newListItem = $("<li>");
-    //button creation
-    if (searchInput) {
-      console.log("searched city if statement");
-      var newListBtn = $("<button>" + searchInput + "</button>");
-      newListBtn.attr({
-        class: "custom-btn",
-        value: searchInput,
-      });
-      historyList.append(newListBtn);
-      // newListItem.append(newListBtn);
-    }
+    // var newListBtn = $("<button>" + searchInput + "</button>");
+    // newListBtn.attr({
+    //   class: "custom-btn",
+    //   value: searchInput,
+    // });
+    // historyList.append(newListBtn);
 
+    //    on page load, create buttoons for locally stored cities
     for (var i = 0; i < storedCity.length; i++) {
-      console.log("search history loop");
       var storedListBtn = $("<button>" + storedCity[i] + "</button>");
       storedListBtn.attr({
         class: "custom-btn",
         value: storedCity[i],
       });
       historyList.append(storedListBtn);
-      // newListItem.append(storedListBtn);
     }
   }
   buttonCreation();
 
+  //2nd api with majority of information being called
   function searchCity(lat, lon) {
     var oneCallApi = `${base}onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`;
 
@@ -120,12 +116,14 @@ $(document).ready(function () {
           return formatDate;
         }
 
+        //Today's weather details
         $(date).text(dateStringNew);
         $(temp).text("Temperature: " + data.current.temp + "°F");
         $(wind).text("Wind Speed: " + data.current.wind_speed + " MPH");
         $(humid).text("Humidity: " + data.current.humidity + "%");
         $(uv).text("UV Index: " + data.current.uvi);
 
+        // Forecast code below
         var forecastArr = [];
         for (var i = 0; i < 5; i++) {
           var forecast = data.daily[i + 1];
@@ -135,6 +133,7 @@ $(document).ready(function () {
             (forecastArr[i].dt + data.timezone_offset) * 1000
           ).toDateString();
 
+          //.getDay method different way to get date's
           // console.log(dateStringForecast.getDay());
 
           var iconCode = forecastArr[i].weather[0].icon;
@@ -181,6 +180,7 @@ $(document).ready(function () {
       });
   }
 
+  // grab's value of selected buttons in search history
   function buttonSearch(e) {
     var value = $(e.target).val();
 
@@ -189,6 +189,7 @@ $(document).ready(function () {
     searchLatLon(value);
   }
 
+  // grab value of form input and pushes it to local storage and main function
   function searchValue(e) {
     e.preventDefault();
     var searchInput = $("input[id='search-input']").val().trim();
@@ -200,6 +201,10 @@ $(document).ready(function () {
     storedCity.push(searchInput);
     localStorage.setItem("Search History", JSON.stringify(storedCity));
 
+    // check for duplicates?
+    if (storedCity.each(function (e) {})) {
+    }
+
     // on enter key (13), submit search form
     // $("#search-input").on("keyup", function (event) {
     //   console.log(event.keycode());
@@ -210,17 +215,11 @@ $(document).ready(function () {
     // });
     searchLatLon(searchInput);
   }
-  function renderHistory() {
-    // if cityBtn already exists in list, dont render again
-    // creates button elements with values of labels
-    // when clicked, buttons take you to corresponding city
-  }
-
-  // calls search history function
-  renderHistory();
 
   // EVENT LISTENERS
 
+  // when main search button clicked, go to form input function
   $(searchBtn).on("click", searchValue);
+  // when button in search history clicked, go to button search function
   $("#history-list").on("click", buttonSearch);
 });
