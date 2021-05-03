@@ -21,19 +21,21 @@
   </head>
   <body>
     <!-- jumbotron header -->
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">Weather Dashboard</h1>
-        <p class="lead">For all of your weather needs 😉</p>
+    <header>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Weather Dashboard</h1>
+          <p class="lead">For all of your weather needs 😉</p>
+        </div>
       </div>
-    </div>
+    </header>
 
     <main class="flex-container">
       <!-- sidebar -->
       <aside>
         <!-- form for user to input city and submit -->
         <div class="custom-search">
-          <h1>Search for a City:</h1>
+          <p><strong>Search for a City:</strong></p>
           <form>
             <input
               id="search-input"
@@ -46,64 +48,44 @@
         </div>
         <!-- list of dynamically created buttons with value of search history  -->
         <div>
-          <ul id="history-list"></ul>
+            <div class="flex-container" id="history-list">
+                 
+                 
+                 
+            </div>
+         
         </div>
       </aside>
 
       <!-- Today and Forecast -->
-      <div>
+      <div id="right-content">
         <!-- Today's weather for searched city -->
-        <div>
+        <div id="current">
           <h2>
-            <span id="city-name">City Name </span><span id="date">Date </span
-            ><span>☁</span>
+            <span id="city-name"> </span><span id="date"> </span>
+            <img id="city-icon" src=""></img>
           </h2>
           <!-- dynamically updated information in <span> -->
-          <p>Temp: <span id="temp">...</span></p>
-          <p>Wind: <span id="wind">...</span></p>
-          <p>Humidity: <span id="humid">...</span></p>
-          <p>UV Index: <span id="uv">...</span></p>
+          
+          <p id="temp"></p>
+          <p id="wind"></p>
+          <p id="humid"></p>
+          <p id="uv"></p>
         </div>
         <!-- 5day forecast -->
         <div>
-          <h2>5-Day Forecast:</h2>
+          <h2 id="forecast-header" class="hidden">5-Day Forecast:</h2>
           <!-- card container -->
-          <div class="flex-container">
-            <div class="card">
+          <div id="card-parent" class="flex-container">
+            
+            <!-- static card example -->
+            <!-- <div class="card">
               <p><strong>05/30/2021</strong></p>
               <p>Temp: <span>...</span></p>
               <p>Wind: <span>...</span></p>
               <p>Humidity: <span>...</span></p>
               <p>UV Index: <span>...</span></p>
-            </div>
-            <div class="card">
-              <p><strong>05/30/2021</strong></p>
-              <p>Temp: <span>...</span></p>
-              <p>Wind: <span>...</span></p>
-              <p>Humidity: <span>...</span></p>
-              <p>UV Index: <span>...</span></p>
-            </div>
-            <div class="card">
-              <p><strong>05/30/2021</strong></p>
-              <p>Temp: <span>...</span></p>
-              <p>Wind: <span>...</span></p>
-              <p>Humidity: <span>...</span></p>
-              <p>UV Index: <span>...</span></p>
-            </div>
-            <div class="card">
-              <p><strong>05/30/2021</strong></p>
-              <p>Temp: <span>...</span></p>
-              <p>Wind: <span>...</span></p>
-              <p>Humidity: <span>...</span></p>
-              <p>UV Index: <span>...</span></p>
-            </div>
-            <div class="card">
-              <p><strong>05/30/2021</strong></p>
-              <p>Temp: <span>...</span></p>
-              <p>Wind: <span>...</span></p>
-              <p>Humidity: <span>...</span></p>
-              <p>UV Index: <span>...</span></p>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
