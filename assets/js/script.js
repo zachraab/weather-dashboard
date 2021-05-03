@@ -202,9 +202,11 @@ $(document).ready(function () {
     localStorage.setItem("Search History", JSON.stringify(storedCity));
 
     // check for duplicates?
-    if (storedCity.each(function (e) {})) {
-    }
+    // if (storedCity.each(function(e) {
 
+    // })) {
+
+    // }
     // on enter key (13), submit search form
     // $("#search-input").on("keyup", function (event) {
     //   console.log(event.keycode());
