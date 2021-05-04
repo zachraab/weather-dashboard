@@ -49,6 +49,9 @@ $(document).ready(function () {
 
         //button creation
         //    search input buttons
+
+        // console.log($(historyList.each()));
+
         var newListBtn = $("<button>" + searchInput + "</button>");
         newListBtn.attr({
           class: "custom-btn",
@@ -95,9 +98,10 @@ $(document).ready(function () {
         // show forecast header
         forecastHeader.removeClass("hidden");
 
-        //deletes old cards
-        //  cardParent.text("");
-        cardParent.children("div").remove();
+        // ways to delete old cards
+        //    cardParent.text("");
+        //    cardParent.children("div").remove();
+        cardParent.empty();
 
         // convert timezone difference and format date
         var dateStringCurrent = new Date(
@@ -186,6 +190,19 @@ $(document).ready(function () {
 
     console.log(value);
 
+    $(".custom-btn").click(function () {
+      $("#history-list button:selected").each(function () {
+        $("#select-from").append(
+          "<button value='" +
+            $(this).val() +
+            "'>" +
+            $(this).text() +
+            "</button>"
+        );
+        $(this).remove();
+      });
+    });
+
     searchLatLon(value);
   }
 
@@ -193,6 +210,7 @@ $(document).ready(function () {
   function searchValue(e) {
     e.preventDefault();
     var searchInput = $("input[id='search-input']").val().trim();
+
     if (!searchInput) {
       alert("Please enter a valid City");
 
@@ -202,26 +220,25 @@ $(document).ready(function () {
     localStorage.setItem("Search History", JSON.stringify(storedCity));
 
     // check for duplicates?
-    // if (storedCity.each(function(e) {
+    // filter duplicates out of list
+    // make it a set
+    // .filter method
+    // if then statement with includes
 
-    // })) {
-
-    // }
-    // on enter key (13), submit search form
-    // $("#search-input").on("keyup", function (event) {
-    //   console.log(event.keycode());
-    //   event.preventDefault();
-    //   if (event.keycode === 13) {
-    //     $(searchBtn).click();
-    //   }
-    // });
     searchLatLon(searchInput);
+
+    // clears input field
+    var clearSearchInput = $("#search-input");
+    clearSearchInput.val("");
   }
 
   // EVENT LISTENERS
+  //    when main search button clicked, go to form input function
+  //    $(searchBtn).on("click", searchValue);
+  $("#formID").on("submit", function (e) {
+    searchValue(e);
+  });
 
-  // when main search button clicked, go to form input function
-  $(searchBtn).on("click", searchValue);
   // when button in search history clicked, go to button search function
   $("#history-list").on("click", buttonSearch);
 });
