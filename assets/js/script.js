@@ -155,6 +155,7 @@ $(document).ready(function () {
               "</strong>" +
               "</p>"
           );
+
           var cardIcon = $("<img>");
           cardIcon.attr({
             src: iconUrl,
@@ -180,6 +181,15 @@ $(document).ready(function () {
             cardHumid,
             cardUvi
           );
+
+          // change color of uvi
+          if (forecastArr[i].uvi > 8) {
+            $(cardUvi).attr("class", "uvi-high");
+          } else if (forecastArr[i].uvi > 4) {
+            $(cardUvi).attr("class", "uvi-medium");
+          } else {
+            $(cardUvi).attr("class", "uvi-low");
+          }
         }
       });
   }
@@ -216,6 +226,9 @@ $(document).ready(function () {
 
       return;
     }
+
+    // for (i = 0; i < storedCity.length; i++) {}
+
     storedCity.push(searchInput);
     localStorage.setItem("Search History", JSON.stringify(storedCity));
 
