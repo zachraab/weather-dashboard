@@ -37,6 +37,10 @@ $(document).ready(function () {
       .then(function (data) {
         console.log(data);
 
+        if (data.message === "city not found") {
+          alert("City not found, search again");
+        }
+
         var lat = data.coord.lat;
         var lon = data.coord.lon;
 
@@ -127,6 +131,15 @@ $(document).ready(function () {
         $(humid).text("Humidity: " + data.current.humidity + "%");
         $(uv).text("UV Index: " + data.current.uvi);
 
+        console.log(data.current.uvi);
+        // change color of uvi
+        if (uv > 8) {
+          uv.attr("class", "uvi-high");
+        } else if (uv > 4) {
+          uv.attr("class", "uvi-medium");
+        } else {
+          uv.attr("class", "uvi-low");
+        }
         // Forecast code below
         var forecastArr = [];
         for (var i = 0; i < 5; i++) {
@@ -222,7 +235,7 @@ $(document).ready(function () {
     var searchInput = $("input[id='search-input']").val().trim();
 
     if (!searchInput) {
-      alert("Please enter a valid City");
+      alert("Please enter a city");
 
       return;
     }
@@ -246,6 +259,7 @@ $(document).ready(function () {
   }
 
   // EVENT LISTENERS
+
   //    when main search button clicked, go to form input function
   //    $(searchBtn).on("click", searchValue);
   $("#formID").on("submit", function (e) {
